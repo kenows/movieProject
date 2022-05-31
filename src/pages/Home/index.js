@@ -7,6 +7,7 @@ import  imagem from '../../imagem/logo1.png'
 
 function Home() {
   const [filmes, setFilmes] = useState([]);
+  const [loading, setLoading] = useState(true);
 
 
   useEffect(() => {
@@ -21,11 +22,21 @@ function Home() {
       })
       //console.log(response.data);
       setFilmes(response.data.results.slice(0,10));
+      setLoading(false);
     }
 
     loadFilmes();
 
   }, [])
+
+
+  if(loading){
+    return(
+      <div className="loading">
+          <h2>Caregando Filmes...</h2>
+      </div>
+    )
+  }
 
   return (
     <div className="container">
@@ -35,7 +46,7 @@ function Home() {
           return (
             <article key={filme.id}>
               <strong>Nome: {filme.title}</strong>
-              <img src={imagem} alt="" />
+              <img src={imagem} />
               <Link to={`/filme/${filme.id}`}>Acessar</Link>
             </article>
           )
